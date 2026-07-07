@@ -73,7 +73,7 @@ async function init() {
   startClock();
 
   try {
-    const response = await fetch("/all-events.json");
+    const response = await fetch("./all-events.json");
 
     if (!response.ok) {
       throw new Error(`Could not load events: ${response.status}`);
