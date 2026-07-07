@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A zero-framework terminal for querying Calgary Stampede pancake breakfasts."
+    />
+    <title>pancake-index</title>
+    <link
+      rel="preload"
+      href="/fonts/AgaveNerdFontMono-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="preload" href="/all-events.json" as="fetch" />
+    <link rel="modulepreload" href="/app.js" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="terminal">
+      <header class="statusbar">
+        <strong>pancake-index</strong>
+        <span class="statusbar__right">
+          <time id="t-clock" aria-live="off"></time>
+        </span>
+      </header>
+
+      <main class="browse">
+        <section class="pane command-pane" aria-label="Search and filters">
+          <div class="command-line">
+            <span class="prompt">pancakes&gt;</span>
+            <input
+              id="search"
+              type="search"
+              autocomplete="off"
+              spellcheck="false"
+              autofocus
+              placeholder="type any event, area, address, feature"
+              aria-label="Search pancake breakfasts"
+            />
+          </div>
+
+          <div class="mode-row" role="group" aria-label="Quick filters">
+            <button class="mode is-active" type="button" data-area-filter="all">all</button>
+            <button class="mode" type="button" data-area-filter="Downtown Calgary">downtown</button>
+            <button class="mode" type="button" data-area-filter="North West Calgary">northwest</button>
+            <button class="mode" type="button" data-area-filter="North East Calgary">northeast</button>
+            <button class="mode" type="button" data-area-filter="South West Calgary">southwest</button>
+            <button class="mode" type="button" data-area-filter="South East Calgary">southeast</button>
+            <button class="mode" type="button" data-area-filter="North Calgary">north</button>
+            <button class="mode" type="button" data-area-filter="South Calgary">south</button>
+            <button class="mode" type="button" data-area-filter="Okotoks">okotoks</button>
+            <button class="mode mode--clear" id="clear-filters" type="button">CLEAR</button>
+          </div>
+
+          <div class="hidden-state" aria-hidden="true">
+            <select id="date-filter"></select>
+            <select id="area-filter"></select>
+            <select id="sort-filter">
+              <option value="soonest">soonest</option>
+              <option value="name">a-z</option>
+              <option value="area">area</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="pane stack-pane" aria-label="Season chart">
+          <div class="season-head">
+            <div class="legend">count by day</div>
+            <button
+              class="season-map-toggle"
+              id="season-map-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="season-map"
+            >
+              map
+            </button>
+          </div>
+          <div class="season-body is-map-closed" id="season-body">
+            <div class="tchart" id="pancake-chart" role="group" aria-label="Breakfasts per day"></div>
+            <pre
+              class="ascii-map season-map"
+              id="season-map"
+              aria-label="ASCII map of Calgary pancake breakfast counts by rough region"
+              hidden
+            ></pre>
+          </div>
+        </section>
+
+        <section class="pane event-pane" aria-label="Events">
+          <div class="tcol-hdr" aria-hidden="true">
+            <span>state</span>
+            <span>cost</span>
+            <span>area</span>
+            <span>event</span>
+            <span>time</span>
+            <span>nav</span>
+          </div>
+
+          <section class="tlist" id="event-list" aria-label="Breakfast results"></section>
+
+          <div class="tempty" id="empty-state" hidden>
+            no pancakes found - adjust filters and try again
+          </div>
+        </section>
+
+        <aside class="pane detail-pane" aria-label="Event details">
+          <div class="detail" id="event-detail">
+            <div class="detail-empty">select a breakfast with arrow keys</div>
+          </div>
+        </aside>
+      </main>
+
+      <footer class="footbar">
+        localhost:5173 | stampede 2026 | no tracking | keys:type search, up/down select | season:stacks/map
+      </footer>
+    </div>
+  </body>
+</html>
